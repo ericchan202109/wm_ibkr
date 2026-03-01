@@ -1,0 +1,7 @@
+description: ''
+value:
+  apiKey: $var:u/admin2/successful_anthropic
+  base_url: https://cc.zhihuiapi.top/v1
+  enable_1M_context: false
+  platform: standard
+resource_type: anthropic

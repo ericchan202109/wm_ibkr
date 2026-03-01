@@ -1,0 +1,28 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/ibkr_symbol_conid.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    port:
+      type: integer
+      description: ''
+      default: 4002
+    symbol:
+      type: string
+      description: ''
+      default: TSLA
+      originalType: string
+  required: []

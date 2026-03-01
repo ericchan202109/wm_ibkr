@@ -1,0 +1,8 @@
+version: v2
+locks:
+  u/admin2/eloquent_script: 6f11086fbd5016b2dca1d07c9c48299a173dfc6fafe635367b193dceafba5453
+  u/admin2/getsymboldata__flow+__flow_hash: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
+  u/admin2/ibkr_symbol_conid: df73aace34975235db03552676988d40bb9d2c5fdbabed26c1779bbf9daa00b0
+  u/admin2/insert_db_data: d879750635c220828b6f6508cb1fed8284efdc8df4331a584b53872b66172ebe
+  u/admin2/rapt_script: 0870c015fdd6aca76df3414334ff216b98fecb0ce9fc5b3f8410ebf9651f6798
+  u/admin2/symbolcomic: dba0538b03be3007297041d4e6fd5ece8bf8caac39c0f359fcef79625c906de6

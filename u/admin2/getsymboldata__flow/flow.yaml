@@ -1,0 +1,59 @@
+summary: GetSymbolData
+description: ""
+value:
+  modules:
+    - id: GetMetadata
+      value:
+        path: u/admin2/ibkr_symbol_conid
+        type: script
+        is_trigger: false
+        input_transforms:
+          host:
+            type: static
+            value: host.docker.internal
+          port:
+            type: static
+            value: 4002
+          symbol:
+            type: static
+            value: TSLA
+          exchange:
+            type: static
+            value: NASDAQ
+    - id: Approval
+      value:
+        type: identity
+      suspend:
+        required_events: 1
+    - id: InsertData
+      value:
+        path: u/admin2/insert_db_data
+        type: script
+        is_trigger: false
+        input_transforms:
+          conid:
+            expr: results.GetMetadata.conid
+            type: javascript
+          symbol:
+            expr: results.GetMetadata.symbol
+            type: javascript
+          secType:
+            expr: results.GetMetadata.secType
+            type: javascript
+          currency:
+            expr: results.GetMetadata.currency
+            type: javascript
+          exchange:
+            expr: results.GetMetadata.exchange
+            type: javascript
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  order:
+    - Symbol
+  properties:
+    Symbol:
+      type: string
+      description: ""
+      default: ""
+  required: []

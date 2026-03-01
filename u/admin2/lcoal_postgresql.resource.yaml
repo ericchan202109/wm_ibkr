@@ -1,0 +1,9 @@
+description: ''
+value:
+  dbname: windmill
+  host: db
+  password: $var:u/admin2/lcoal_postgresql
+  root_certificate_pem: ''
+  sslmode: disable
+  user: postgres
+resource_type: postgresql

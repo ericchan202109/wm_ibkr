@@ -1,0 +1,42 @@
+summary: Insert DB Data
+description: Insert symbol and conid
+lock: '!inline u/admin2/insert_db_data.script.lock'
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    conid:
+      type: integer
+      description: ''
+      default: null
+    currency:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    secType:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    status:
+      type: string
+      description: ''
+      default: SUSPEND
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - symbol
+    - conid
+    - exchange
+    - currency
+    - secType

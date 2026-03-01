@@ -1,0 +1,14 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/rapt_script.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    port:
+      type: integer
+      description: 'IB Gateway Port (e.g. 4001 for Live, 4002 for Paper)'
+      default: 4002
+      originalType: number
+  required: []

@@ -1,0 +1,23 @@
+defaultTs: bun
+includes:
+  - f/**
+  - u/**
+excludes: []
+codebases: []
+skipVariables: false
+skipResources: false
+skipResourceTypes: false
+skipSecrets: true
+skipScripts: false
+skipFlows: false
+skipApps: false
+skipFolders: false
+includeSchedules: false
+includeTriggers: false
+includeUsers: false
+includeGroups: false
+includeSettings: false
+includeKey: false
+skipWorkspaceDependencies: false
+nonDottedPaths: true
+gitBranches: {}

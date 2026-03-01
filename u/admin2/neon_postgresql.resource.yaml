@@ -1,0 +1,9 @@
+description: ''
+value:
+  dbname: neondb
+  host: ep-ancient-art-a1t5gjq4.ap-southeast-1.aws.neon.tech
+  password: $var:u/admin2/neon_postgresql
+  root_certificate_pem: ''
+  sslmode: require
+  user: neondb_owner
+resource_type: postgresql
