@@ -3,7 +3,7 @@ import psycopg2
 
 def main(symbol: str, conid: int, exchange: str, currency: str, secType: str, status: str = 'SUSPEND'):
     # 1. get credential
-    db_cred = wmill.get_resource("u/admin2/neon_postgresql")
+    db_cred = wmill.get_resource("u/admin2/supabase_postgresql")
     
     # 3. insert data
     conn = psycopg2.connect(

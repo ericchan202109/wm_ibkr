@@ -1,0 +1,286 @@
+summary: IBKR strategy engine with pluggable subflows and gated execution
+description: Loads strategy config from PostgreSQL, runs all active strategy
+  subflows for a symbol, aggregates signals, uploads chart artifacts to S3, and
+  optionally submits orders to IBKR.
+value:
+  modules:
+    - id: load_strategy_context
+      value:
+        path: u/admin2/load_strategy_context
+        type: script
+        is_trigger: false
+        input_transforms:
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          db_resource_path:
+            expr: flow_input.db_resource_path
+            type: javascript
+          s3_resource_path:
+            expr: flow_input.s3_resource_path
+            type: javascript
+          llm_resource_path:
+            expr: flow_input.llm_resource_path
+            type: javascript
+      summary: Load workflow config and active strategy definitions from PostgreSQL
+    - id: run_active_strategies
+      value:
+        path: u/admin2/run_active_strategies
+        type: script
+        is_trigger: false
+        input_transforms:
+          host:
+            expr: flow_input.host
+            type: javascript
+          port:
+            expr: flow_input.port
+            type: javascript
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          use_rth:
+            expr: flow_input.use_rth
+            type: javascript
+          currency:
+            expr: flow_input.currency
+            type: javascript
+          exchange:
+            expr: flow_input.exchange
+            type: javascript
+          client_id:
+            expr: flow_input.client_id
+            type: javascript
+          data_mode:
+            expr: flow_input.data_mode
+            type: javascript
+          strategies:
+            expr: results.load_strategy_context.active_strategies
+            type: javascript
+          symbol_config:
+            expr: results.load_strategy_context.symbol_config
+            type: javascript
+          persist_reports:
+            expr: flow_input.persist_reports
+            type: javascript
+          workflow_config:
+            expr: results.load_strategy_context.global_config
+            type: javascript
+          db_resource_path:
+            expr: flow_input.db_resource_path
+            type: javascript
+          s3_resource_path:
+            expr: flow_input.s3_resource_path
+            type: javascript
+          llm_resource_path:
+            expr: flow_input.llm_resource_path
+            type: javascript
+      summary: Execute every active strategy plugin for the symbol
+    - id: aggregate_decisions
+      value:
+        path: u/admin2/aggregate_strategy_decisions
+        type: script
+        is_trigger: false
+        input_transforms:
+          host:
+            expr: flow_input.host
+            type: javascript
+          port:
+            expr: flow_input.port
+            type: javascript
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          dry_run:
+            expr: flow_input.dry_run
+            type: javascript
+          contract:
+            expr: results.load_strategy_context.contract
+            type: javascript
+          currency:
+            expr: flow_input.currency
+            type: javascript
+          exchange:
+            expr: flow_input.order_exchange
+            type: javascript
+          client_id:
+            expr: flow_input.client_id
+            type: javascript
+          symbol_config:
+            expr: results.load_strategy_context.symbol_config
+            type: javascript
+          workflow_config:
+            expr: results.load_strategy_context.global_config
+            type: javascript
+          primary_exchange:
+            expr: flow_input.primary_exchange
+            type: javascript
+          strategy_results:
+            expr: results.run_active_strategies.results
+            type: javascript
+          execution_mode_override:
+            expr: flow_input.execution_mode_override
+            type: javascript
+      summary: Detect cross-strategy conflicts and build the IBKR order candidate
+    - id: persist_signal_run
+      value:
+        path: u/admin2/persist_signal_run
+        type: script
+        is_trigger: false
+        input_transforms:
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          context:
+            expr: results.load_strategy_context
+            type: javascript
+          aggregate:
+            expr: results.aggregate_decisions
+            type: javascript
+          strategy_run:
+            expr: results.run_active_strategies
+            type: javascript
+          db_resource_path:
+            expr: flow_input.db_resource_path
+            type: javascript
+      summary: Persist signal run and create approval request when needed
+    - id: invoke_execution
+      value:
+        path: u/admin2/invoke_execution_flow
+        type: script
+        is_trigger: false
+        input_transforms:
+          order_candidate:
+            expr: results.aggregate_decisions.order_candidate
+            type: javascript
+          execution_flow_path:
+            expr: flow_input.execution_flow_path
+            type: javascript
+      skip_if:
+        expr: "!results.persist_signal_run.should_auto_place"
+      summary: Run the execution subflow if the order is allowed to proceed
+    - id: record_execution_event
+      value:
+        path: u/admin2/record_execution_event
+        type: script
+        is_trigger: false
+        input_transforms:
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          signal_run_id:
+            expr: results.persist_signal_run.signal_run_id
+            type: javascript
+          db_resource_path:
+            expr: flow_input.db_resource_path
+            type: javascript
+          execution_result:
+            expr: results.invoke_execution
+            type: javascript
+          approval_request_id:
+            expr: results.persist_signal_run.approval_request_id
+            type: javascript
+      skip_if:
+        expr: "!results.persist_signal_run.signal_run_id || !results.invoke_execution ||
+          !results.invoke_execution.result"
+      summary: Persist execution result and update order status
+    - id: finalize_output
+      value:
+        path: u/admin2/finalize_strategy_engine_output
+        type: script
+        is_trigger: false
+        input_transforms:
+          symbol:
+            expr: flow_input.symbol
+            type: javascript
+          context:
+            expr: results.load_strategy_context
+            type: javascript
+          aggregate:
+            expr: results.aggregate_decisions
+            type: javascript
+          strategy_run:
+            expr: results.run_active_strategies
+            type: javascript
+          persisted_run:
+            expr: results.persist_signal_run
+            type: javascript
+          execution_event:
+            expr: results.record_execution_event || null
+            type: javascript
+          execution_result:
+            expr: results.invoke_execution || null
+            type: javascript
+      summary: Return the final engine payload for the caller
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    symbol:
+      type: string
+      description: Stock ticker symbol
+    host:
+      type: string
+      default: host.docker.internal
+      description: IBKR gateway host
+    port:
+      type: integer
+      default: 4002
+      description: IBKR gateway port
+    client_id:
+      type: integer
+      default: 7
+      description: IBKR API client id
+    exchange:
+      type: string
+      default: NASDAQ
+      description: Exchange used for report and market-data collection
+    order_exchange:
+      type: string
+      default: SMART
+      description: Exchange used for order routing
+    primary_exchange:
+      type: string
+      default: NASDAQ
+      description: Primary exchange used when placing the order
+    currency:
+      type: string
+      default: USD
+      description: Contract currency
+    use_rth:
+      type: boolean
+      default: true
+      description: Use regular trading hours for bar collection
+    db_resource_path:
+      type: string
+      default: u/admin2/supabase_postgresql
+      description: PostgreSQL resource path
+    s3_resource_path:
+      type: string
+      default: u/admin2/minio_s3
+      description: MinIO or S3 resource path for chart artifacts
+    llm_resource_path:
+      type: string
+      default: u/admin2/capi_customai
+      description: LLM resource path
+    data_mode:
+      type: string
+      default: run_new
+      description: run_new or load_latest
+    persist_reports:
+      type: boolean
+      default: false
+      description: Persist run_stock_report output
+    execution_mode_override:
+      type: string
+      default: ""
+      description: Optional override for signal_only, approval_gate, or auto_place
+    dry_run:
+      type: boolean
+      default: true
+      description: If true, validate the order candidate without submitting it to IBKR
+    execution_flow_path:
+      type: string
+      default: u/admin2/execute_ibkr_order
+      description: Execution subflow path
+  required:
+    - symbol

@@ -1,0 +1,35 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/record_execution_event.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    approval_request_id:
+      type: integer
+      description: ''
+      default: null
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    execution_result:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    signal_run_id:
+      type: integer
+      description: ''
+      default: null
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - signal_run_id
+    - symbol
+    - execution_result

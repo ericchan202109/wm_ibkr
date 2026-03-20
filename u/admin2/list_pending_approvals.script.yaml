@@ -1,0 +1,23 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/list_pending_approvals.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    limit:
+      type: integer
+      description: ''
+      default: 100
+    symbol:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+  required: []

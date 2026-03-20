@@ -1,0 +1,1416 @@
+{
+  "summary": "stock_report_app",
+  "value": {
+    "fullscreen": false,
+    "grid": [
+      {
+        "3": {
+          "fixed": true,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "12": {
+          "fixed": true,
+          "fullHeight": false,
+          "h": 2,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": "topbar",
+        "data": {
+          "id": "topbar",
+          "type": "containercomponent",
+          "configuration": {},
+          "customCss": {
+            "container": {
+              "class": "rounded-[28px] border border-amber-700/40 bg-[radial-gradient(circle_at_top_left,_rgba(251,191,36,0.18),_transparent_35%),linear-gradient(135deg,_rgba(17,24,39,0.98),_rgba(30,41,59,0.96))] px-5 py-4 shadow-[0_20px_60px_rgba(15,23,42,0.45)]",
+              "style": ""
+            }
+          },
+          "numberOfSubgrids": 1
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 6,
+          "x": 0,
+          "y": 2
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 4,
+          "x": 0,
+          "y": 2
+        },
+        "id": "symbol_options_loader",
+        "data": {
+          "id": "symbol_options_loader",
+          "type": "displaycomponent",
+          "componentInput": {
+            "type": "runnable",
+            "fields": {
+              "contracts_meta_data": {
+                "type": "static",
+                "value": 3
+              },
+              "db_resource_path": {
+                "type": "static",
+                "value": "u/admin2/supabase_postgresql"
+              },
+              "limit": {
+                "type": "static",
+                "value": 500
+              },
+              "search": {
+                "type": "static",
+                "value": null
+              }
+            },
+            "fieldType": "object",
+            "runnable": {
+              "type": "path",
+              "path": "u/admin2/get_contract_symbols",
+              "runType": "script",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "contracts_meta_data": {
+                    "type": "integer",
+                    "description": "contracts.meta_data filter",
+                    "default": 3
+                  },
+                  "db_resource_path": {
+                    "type": "string",
+                    "description": "PostgreSQL resource path",
+                    "default": "u/admin2/supabase_postgresql"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Maximum symbols to load",
+                    "default": 500
+                  },
+                  "search": {
+                    "type": "string",
+                    "description": "Optional case-insensitive symbol search",
+                    "default": null
+                  }
+                }
+              }
+            }
+          },
+          "configuration": {
+            "forceJson": {
+              "type": "static",
+              "value": false
+            },
+            "hideDetails": {
+              "type": "static",
+              "value": true
+            },
+            "title": {
+              "type": "static",
+              "value": "Symbol Source"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "hidden",
+              "style": ""
+            },
+            "header": {
+              "class": "hidden",
+              "style": ""
+            }
+          }
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 3
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 0,
+          "y": 3
+        },
+        "id": "workspace_intro",
+        "data": {
+          "id": "workspace_intro",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [],
+            "eval": "Fresh IBKR runs are the default path. Pick a symbol, choose the mode once, and the form will map the mode into the backend booleans automatically.",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-[24px] border border-slate-700/80 bg-slate-950/75 px-4 py-3",
+              "style": ""
+            },
+            "text": {
+              "class": "text-sm leading-6 text-slate-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 5
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 0,
+          "y": 5
+        },
+        "id": "symbol_select",
+        "data": {
+          "id": "symbol_select",
+          "type": "selectcomponent",
+          "configuration": {
+            "create": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "defaultValue": {
+              "type": "evalv2",
+              "connections": [
+                {
+                  "id": "result",
+                  "componentId": "symbol_options_loader"
+                }
+              ],
+              "expr": "(symbol_options_loader && symbol_options_loader.result && symbol_options_loader.result.default_symbol) ? symbol_options_loader.result.default_symbol : \"TSLA\"",
+              "fieldType": "object"
+            },
+            "disabled": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "fullWidth": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "items": {
+              "type": "evalv2",
+              "connections": [
+                {
+                  "id": "result",
+                  "componentId": "symbol_options_loader"
+                }
+              ],
+              "expr": "(symbol_options_loader && symbol_options_loader.result && symbol_options_loader.result.options) ? symbol_options_loader.result.options : [{\"value\":\"TSLA\",\"label\":\"TSLA\"}]",
+              "fieldType": "array",
+              "subFieldType": "labeledselect"
+            },
+            "nativeHtmlSelect": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "placeholder": {
+              "type": "static",
+              "value": "Select contract symbol or stay on TSLA",
+              "fieldType": "text"
+            },
+            "preselectFirst": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            }
+          },
+          "customCss": {
+            "input": {
+              "class": "border border-amber-700/35 bg-slate-950/85 text-slate-50",
+              "style": ""
+            }
+          },
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 7
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 0,
+          "y": 7
+        },
+        "id": "run_mode_select",
+        "data": {
+          "id": "run_mode_select",
+          "type": "selectcomponent",
+          "configuration": {
+            "create": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "defaultValue": {
+              "type": "static",
+              "value": {
+                "run_new": true,
+                "load_latest": false,
+                "label": "Fresh IBKR Run"
+              },
+              "fieldType": "object"
+            },
+            "disabled": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "fullWidth": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "items": {
+              "type": "static",
+              "value": [
+                {
+                  "value": {
+                    "run_new": true,
+                    "load_latest": false,
+                    "label": "Fresh IBKR Run"
+                  },
+                  "label": "Fresh IBKR Run"
+                },
+                {
+                  "value": {
+                    "run_new": false,
+                    "load_latest": true,
+                    "label": "Load Latest Persisted"
+                  },
+                  "label": "Load Latest Persisted"
+                }
+              ],
+              "fieldType": "array",
+              "subFieldType": "labeledselect"
+            },
+            "nativeHtmlSelect": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "placeholder": {
+              "type": "static",
+              "value": "Choose execution mode",
+              "fieldType": "text"
+            },
+            "preselectFirst": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            }
+          },
+          "customCss": {
+            "input": {
+              "class": "border border-emerald-700/35 bg-slate-950/85 text-slate-50",
+              "style": ""
+            }
+          },
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 9
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 0,
+          "y": 9
+        },
+        "id": "symbol_source_status",
+        "data": {
+          "id": "symbol_source_status",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "symbol_options_loader"
+              }
+            ],
+            "eval": "${(symbol_options_loader && symbol_options_loader.result) ? (\"Symbol source: \" + (symbol_options_loader.result.source || \"contracts\") + \" | loaded \" + (symbol_options_loader.result.count || 0) + \" | default \" + (symbol_options_loader.result.default_symbol || \"TSLA\")) : \"Symbol source: loading contract list...\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Caption"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-cyan-800/35 bg-cyan-950/25 px-3 py-2",
+              "style": ""
+            },
+            "text": {
+              "class": "text-xs font-medium tracking-wide text-cyan-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 11
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 11
+        },
+        "id": "mode_guidance",
+        "data": {
+          "id": "mode_guidance",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "run_mode_select"
+              }
+            ],
+            "eval": "${(run_mode_select && run_mode_select.result && run_mode_select.result.run_new) ? \"Mode: Fresh IBKR Run. Live market data, technical indicators, and current news are fetched now. Persistence stays available as a toggle.\" : \"Mode: Load Latest Persisted. No live IBKR fetch is attempted; the newest saved report for the selected symbol is returned.\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-[24px] border border-emerald-800/35 bg-emerald-950/20 px-4 py-3",
+              "style": ""
+            },
+            "text": {
+              "class": "text-sm leading-6 text-emerald-100/95",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "top"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 15,
+          "w": 6,
+          "x": 0,
+          "y": 15
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 15,
+          "w": 4,
+          "x": 0,
+          "y": 15
+        },
+        "id": "report_form",
+        "data": {
+          "id": "report_form",
+          "type": "formcomponent",
+          "componentInput": {
+            "type": "runnable",
+            "fields": {
+              "bar_size": {
+                "type": "static",
+                "value": "1 day"
+              },
+              "client_id": {
+                "type": "static",
+                "value": 7
+              },
+              "contracts_meta_data": {
+                "type": "static",
+                "value": 3
+              },
+              "currency": {
+                "type": "static",
+                "value": "USD"
+              },
+              "db_resource_path": {
+                "type": "static",
+                "value": "u/admin2/supabase_postgresql"
+              },
+              "exchange": {
+                "type": "static",
+                "value": "NASDAQ"
+              },
+              "history_limit": {
+                "type": "user"
+              },
+              "history_symbol": {
+                "type": "static",
+                "value": "AUTO"
+              },
+              "host": {
+                "type": "static",
+                "value": "host.docker.internal"
+              },
+              "include_full_articles": {
+                "type": "user"
+              },
+              "load_latest": {
+                "type": "connected",
+                "value": false,
+                "connection": {
+                  "componentId": "run_mode_select",
+                  "path": "result.load_latest"
+                }
+              },
+              "lookback_days": {
+                "type": "user"
+              },
+              "news_compact_mode": {
+                "type": "static",
+                "value": true
+              },
+              "news_days": {
+                "type": "user"
+              },
+              "news_limit": {
+                "type": "user"
+              },
+              "news_markdown_top_n": {
+                "type": "static",
+                "value": 8
+              },
+              "persist": {
+                "type": "user"
+              },
+              "port": {
+                "type": "static",
+                "value": 4002
+              },
+              "run_new": {
+                "type": "connected",
+                "value": true,
+                "connection": {
+                  "componentId": "run_mode_select",
+                  "path": "result.run_new"
+                }
+              },
+              "symbol": {
+                "type": "connected",
+                "value": "AUTO",
+                "connection": {
+                  "componentId": "symbol_select",
+                  "path": "result"
+                }
+              },
+              "use_rth": {
+                "type": "static",
+                "value": true
+              }
+            },
+            "fieldType": "object",
+            "runnable": {
+              "type": "path",
+              "path": "u/admin2/run_stock_report",
+              "runType": "script",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "host": {
+                    "type": "string",
+                    "default": "host.docker.internal",
+                    "description": "IBKR gateway host."
+                  },
+                  "port": {
+                    "type": "integer",
+                    "default": 4002,
+                    "description": "IBKR gateway port."
+                  },
+                  "symbol": {
+                    "type": "string",
+                    "default": "AUTO",
+                    "description": "Symbol from dropdown (defaults to first contracts symbol, fallback TSLA)."
+                  },
+                  "persist": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Persist successful reports to PostgreSQL (default true)."
+                  },
+                  "run_new": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Fetch fresh IBKR data and render a new report (default false)."
+                  },
+                  "use_rth": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Use regular trading hours only for bars (default true)."
+                  },
+                  "bar_size": {
+                    "type": "string",
+                    "default": "1 day",
+                    "description": "IBKR candle bar size."
+                  },
+                  "currency": {
+                    "type": "string",
+                    "default": "USD",
+                    "description": "Contract currency."
+                  },
+                  "exchange": {
+                    "type": "string",
+                    "default": "NASDAQ",
+                    "description": "IBKR contract exchange code."
+                  },
+                  "client_id": {
+                    "type": "integer",
+                    "default": 7,
+                    "description": "IBKR API client id."
+                  },
+                  "news_days": {
+                    "type": "integer",
+                    "default": 7,
+                    "description": "News lookback window in days (default 7)."
+                  },
+                  "news_limit": {
+                    "type": "integer",
+                    "default": 50,
+                    "description": "Maximum number of news items to fetch (default 50)."
+                  },
+                  "load_latest": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Load newest persisted report instead of fetching live data (default false)."
+                  },
+                  "history_limit": {
+                    "type": "integer",
+                    "default": 10,
+                    "description": "Number of history rows to load (default 10)."
+                  },
+                  "lookback_days": {
+                    "type": "integer",
+                    "default": 180,
+                    "description": "Historical lookback window in days (default 180)."
+                  },
+                  "history_symbol": {
+                    "type": "string",
+                    "default": "AUTO",
+                    "description": "Symbol for history lookup. AUTO follows selected symbol."
+                  },
+                  "db_resource_path": {
+                    "type": "string",
+                    "default": "u/admin2/supabase_postgresql",
+                    "description": "PostgreSQL resource path for history/contracts/persistence."
+                  },
+                  "news_compact_mode": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Render compact news output (default true)."
+                  },
+                  "contracts_meta_data": {
+                    "type": "integer",
+                    "default": 3,
+                    "description": "contracts.meta_data filter for AUTO/lookup symbol loading."
+                  },
+                  "news_markdown_top_n": {
+                    "type": "integer",
+                    "default": 8,
+                    "description": "Top N news items included in markdown summary (default 8)."
+                  },
+                  "include_full_articles": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Include full article body when available (default true)."
+                  }
+                }
+              }
+            }
+          },
+          "configuration": {
+            "color": {
+              "type": "static",
+              "value": "dark"
+            },
+            "label": {
+              "type": "static",
+              "value": "Run Stock Report"
+            },
+            "size": {
+              "type": "static",
+              "value": "xs"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-[28px] border border-slate-700/90 bg-[linear-gradient(180deg,_rgba(15,23,42,0.92),_rgba(2,6,23,0.92))] p-4 shadow-xl shadow-black/30",
+              "style": ""
+            }
+          }
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 30
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 3,
+          "w": 8,
+          "x": 4,
+          "y": 2
+        },
+        "id": "execution_status",
+        "data": {
+          "id": "execution_status",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result) ? ((((report_form.result.status || \"ok\").toUpperCase()) + \" | \" + (report_form.result.message || \"Run finished\") + \" | mode \" + (((report_form.result.controls && report_form.result.controls.load_latest) ? \"Load Latest Persisted\" : \"Fresh IBKR Run\")) + \" | symbol \" + (report_form.result.symbol || \"-\"))) : \"Ready. Choose a symbol, keep the default Fresh IBKR Run if you want live data, then submit the form.\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-[28px] border border-amber-700/35 bg-[radial-gradient(circle_at_top_right,_rgba(251,191,36,0.16),_transparent_28%),linear-gradient(180deg,_rgba(51,65,85,0.92),_rgba(15,23,42,0.96))] px-4 py-4",
+              "style": ""
+            },
+            "text": {
+              "class": "text-base font-medium leading-7 text-amber-50",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 33
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 4,
+          "y": 5
+        },
+        "id": "status_data",
+        "data": {
+          "id": "status_data",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result) ? (\"Coverage | fundamentals \" + (((report_form.result.data_quality && report_form.result.data_quality.fundamentals_available) ? \"ready\" : \"missing\")) + \" | bars \" + (((report_form.result.data_quality && report_form.result.data_quality.bars_available) ? \"ready\" : \"missing\")) + \" | news \" + (((report_form.result.data_quality && report_form.result.data_quality.news_headlines_available) ? \"ready\" : \"missing\"))) : \"Coverage | waiting for first report\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-emerald-800/35 bg-emerald-950/20 px-3 py-2",
+              "style": ""
+            },
+            "text": {
+              "class": "text-sm font-medium leading-6 text-emerald-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 35
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 2,
+          "w": 4,
+          "x": 8,
+          "y": 5
+        },
+        "id": "status_issues",
+        "data": {
+          "id": "status_issues",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result) ? (\"Run health | warnings \" + (((report_form.result.warnings && report_form.result.warnings.length) ? report_form.result.warnings.length : 0)) + \" | errors \" + (((report_form.result.errors && report_form.result.errors.length) ? report_form.result.errors.length : 0)) + \" | ibkr \" + (((report_form.result.data_quality && report_form.result.data_quality.ibkr_connected) ? \"live\" : \"offline\"))) : \"Run health | not executed\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-amber-800/35 bg-amber-950/20 px-3 py-2",
+              "style": ""
+            },
+            "text": {
+              "class": "text-sm font-medium leading-6 text-amber-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 6,
+          "x": 0,
+          "y": 37
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 8,
+          "x": 4,
+          "y": 7
+        },
+        "id": "report_title",
+        "data": {
+          "id": "report_title",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${((report_form && report_form.result && report_form.result.controls && report_form.result.controls.load_latest) ? \"Latest persisted report\" : \"Fresh report output\") + ((report_form && report_form.result && report_form.result.symbol) ? (\" - \" + report_form.result.symbol.toUpperCase()) : \"\")}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Subtitle"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "",
+              "style": ""
+            },
+            "text": {
+              "class": "text-2xl font-serif font-semibold tracking-wide text-slate-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 20,
+          "w": 6,
+          "x": 0,
+          "y": 38
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 22,
+          "w": 8,
+          "x": 4,
+          "y": 8
+        },
+        "id": "report_markdown",
+        "data": {
+          "id": "report_markdown",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result && report_form.result.report_markdown) ? report_form.result.report_markdown : ((report_form && report_form.result && report_form.result.report && report_form.result.report.report_markdown) ? report_form.result.report.report_markdown : ((report_form && report_form.result && report_form.result.message) ? report_form.result.message : \"Select a symbol, choose a mode, and run the report.\"))}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": true
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Body"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-[28px] border border-slate-700/80 bg-[linear-gradient(180deg,_rgba(2,6,23,0.94),_rgba(15,23,42,0.9))] p-5 shadow-inner shadow-black/40",
+              "style": ""
+            },
+            "text": {
+              "class": "whitespace-pre-wrap font-serif leading-7 text-[15px] text-slate-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "top"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 6,
+          "x": 0,
+          "y": 58
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 1,
+          "w": 8,
+          "x": 4,
+          "y": 30
+        },
+        "id": "diagnostics_title",
+        "data": {
+          "id": "diagnostics_title",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [],
+            "eval": "Diagnostics and persistence trail",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": true,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Subtitle"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "",
+              "style": ""
+            },
+            "text": {
+              "class": "text-lg font-serif font-semibold tracking-wide text-slate-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "center"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 59
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 6,
+          "w": 4,
+          "x": 4,
+          "y": 31
+        },
+        "id": "data_quality",
+        "data": {
+          "id": "data_quality",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result && report_form.result.data_quality) ? ([\"IBKR connected: \" + (((report_form.result.data_quality.ibkr_connected) ? \"yes\" : \"no\")), \"Fundamentals available: \" + (((report_form.result.data_quality.fundamentals_available) ? \"yes\" : \"no\")), \"Bars available: \" + (((report_form.result.data_quality.bars_available) ? \"yes\" : \"no\")), \"News headlines available: \" + (((report_form.result.data_quality.news_headlines_available) ? \"yes\" : \"no\")), ((report_form.result.data_quality.notes && report_form.result.data_quality.notes.length) ? (\"Notes: \" + report_form.result.data_quality.notes.join(\" | \")) : \"Notes: none\")].join(\"\n\")) : \"Run a report to inspect data quality.\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Caption"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-cyan-800/35 bg-slate-950/65 p-3",
+              "style": ""
+            },
+            "text": {
+              "class": "whitespace-pre-wrap text-xs leading-5 text-cyan-100/95",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "top"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 65
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 6,
+          "w": 4,
+          "x": 8,
+          "y": 31
+        },
+        "id": "history_panel",
+        "data": {
+          "id": "history_panel",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result && report_form.result.history && report_form.result.history.rows && report_form.result.history.rows.length) ? report_form.result.history.rows.map((row, index) => ((index + 1) + \". \" + (row.symbol || \"-\") + \" | \" + (row.generated_at || \"-\") + \" | run #\" + (row.id || \"-\"))).join(\"\n\") : \"No persisted rows available for this symbol.\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Caption"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-indigo-800/35 bg-slate-950/65 p-3",
+              "style": ""
+            },
+            "text": {
+              "class": "whitespace-pre-wrap text-xs leading-5 text-indigo-100/95",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "top"
+        }
+      },
+      {
+        "3": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 7,
+          "w": 6,
+          "x": 0,
+          "y": 71
+        },
+        "12": {
+          "fixed": false,
+          "fullHeight": false,
+          "h": 7,
+          "w": 8,
+          "x": 4,
+          "y": 37
+        },
+        "id": "warnings_errors",
+        "data": {
+          "id": "warnings_errors",
+          "type": "textcomponent",
+          "componentInput": {
+            "type": "templatev2",
+            "connections": [
+              {
+                "id": "result",
+                "componentId": "report_form"
+              }
+            ],
+            "eval": "${(report_form && report_form.result && (((report_form.result.errors && report_form.result.errors.length) || (report_form.result.warnings && report_form.result.warnings.length)))) ? ([\"Warnings:\", (((report_form.result.warnings && report_form.result.warnings.length) ? report_form.result.warnings.join(\"\n\") : \"None\")), \"\", \"Errors:\", (((report_form.result.errors && report_form.result.errors.length) ? report_form.result.errors.join(\"\n\") : \"None\"))].join(\"\n\")) : \"No warnings or errors.\"}",
+            "fieldType": "template"
+          },
+          "configuration": {
+            "copyButton": {
+              "type": "static",
+              "value": false
+            },
+            "disableNoText": {
+              "type": "static",
+              "value": false,
+              "fieldType": "boolean"
+            },
+            "style": {
+              "type": "static",
+              "value": "Caption"
+            }
+          },
+          "customCss": {
+            "container": {
+              "class": "rounded-2xl border border-amber-700/45 bg-gradient-to-r from-amber-950/25 to-slate-900/65 p-3",
+              "style": ""
+            },
+            "text": {
+              "class": "whitespace-pre-wrap text-xs leading-5 text-amber-100",
+              "style": ""
+            }
+          },
+          "horizontalAlignment": "left",
+          "verticalAlignment": "top"
+        }
+      }
+    ],
+    "hiddenInlineScripts": [],
+    "hideLegacyTopBar": true,
+    "mobileViewOnSmallerScreens": true,
+    "subgrids": {
+      "topbar-0": [
+        {
+          "3": {
+            "fixed": false,
+            "fullHeight": false,
+            "h": 1,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "12": {
+            "fixed": false,
+            "fullHeight": false,
+            "h": 1,
+            "w": 8,
+            "x": 0,
+            "y": 0
+          },
+          "id": "title",
+          "data": {
+            "id": "title",
+            "type": "textcomponent",
+            "componentInput": {
+              "type": "templatev2",
+              "connections": [
+                {
+                  "id": "summary",
+                  "componentId": "ctx"
+                }
+              ],
+              "eval": "${ctx.summary + \" | Execution Console\"}",
+              "fieldType": "template"
+            },
+            "configuration": {
+              "copyButton": {
+                "type": "static",
+                "value": false
+              },
+              "disableNoText": {
+                "type": "static",
+                "value": true,
+                "fieldType": "boolean"
+              },
+              "style": {
+                "type": "static",
+                "value": "Body"
+              },
+              "tooltip": {
+                "type": "evalv2",
+                "value": "",
+                "connections": [
+                  {
+                    "id": "author",
+                    "componentId": "ctx"
+                  }
+                ],
+                "expr": "`Author: ${ctx.author}`",
+                "fieldType": "text"
+              }
+            },
+            "customCss": {
+              "container": {
+                "class": "",
+                "style": ""
+              },
+              "text": {
+                "class": "text-xl font-serif font-semibold tracking-wide whitespace-nowrap truncate text-amber-50",
+                "style": ""
+              }
+            },
+            "horizontalAlignment": "left",
+            "verticalAlignment": "center"
+          }
+        },
+        {
+          "3": {
+            "fixed": false,
+            "fullHeight": false,
+            "h": 1,
+            "w": 6,
+            "x": 0,
+            "y": 1
+          },
+          "12": {
+            "fixed": false,
+            "fullHeight": false,
+            "h": 1,
+            "w": 4,
+            "x": 8,
+            "y": 0
+          },
+          "id": "recomputeall",
+          "data": {
+            "id": "recomputeall",
+            "type": "recomputeallcomponent",
+            "configuration": {
+              "defaultRefreshInterval": {
+                "type": "static",
+                "value": "0"
+              }
+            },
+            "customCss": {
+              "container": {
+                "class": "",
+                "style": ""
+              }
+            },
+            "horizontalAlignment": "right",
+            "menuItems": [],
+            "verticalAlignment": "center"
+          }
+        }
+      ]
+    },
+    "theme": {
+      "type": "path",
+      "path": "f/app_themes/theme_0"
+    },
+    "unusedInlineScripts": []
+  }
+}

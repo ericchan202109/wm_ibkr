@@ -1,0 +1,30 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/load_strategy_context.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    llm_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/capi_customai
+      originalType: string
+    s3_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/minio_s3
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - symbol

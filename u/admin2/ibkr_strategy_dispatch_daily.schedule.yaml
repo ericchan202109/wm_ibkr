@@ -1,0 +1,14 @@
+schedule: "0 35 9 * * 1-5"
+timezone: "America/New_York"
+enabled: true
+script_path: "u/admin2/ibkr_strategy_dispatch_daily"
+is_flow: true
+args:
+  engine_flow_path: "u/admin2/ibkr_strategy_engine"
+  db_resource_path: "u/admin2/supabase_postgresql"
+  host: "host.docker.internal"
+  port: 4002
+  client_id: 7
+summary: "Run the daily IBKR strategy dispatch flow"
+description: "Runs once each market day and dispatches one strategy-engine job for each active symbol that has not yet been processed for that trading day."
+no_flow_overlap: true

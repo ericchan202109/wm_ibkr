@@ -1,0 +1,74 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/generate_signal_chart.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    bar_size:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    client_id:
+      type: integer
+      description: ''
+      default: 7
+    currency:
+      type: string
+      description: ''
+      default: USD
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    fallback_latest:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    fetch_script_path:
+      type: string
+      description: ''
+      default: u/admin2/ibkr_fetch_report_data
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    lookback_days:
+      type: integer
+      description: ''
+      default: null
+    port:
+      type: integer
+      description: ''
+      default: 4002
+    s3_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/minio_s3
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    timeframe_label:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    use_rth:
+      type: boolean
+      description: ''
+      default: true
+  required:
+    - symbol
+    - timeframe_label
+    - bar_size
+    - lookback_days

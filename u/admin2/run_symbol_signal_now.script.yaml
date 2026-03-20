@@ -1,0 +1,75 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/run_symbol_signal_now.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    client_id:
+      type: integer
+      description: ''
+      default: 7
+    currency:
+      type: string
+      description: ''
+      default: USD
+      originalType: string
+    data_mode:
+      type: string
+      description: ''
+      default: run_new
+      originalType: string
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    dry_run:
+      type: boolean
+      description: ''
+      default: false
+    engine_flow_path:
+      type: string
+      description: ''
+      default: u/admin2/ibkr_strategy_engine
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    order_exchange:
+      type: string
+      description: ''
+      default: SMART
+      originalType: string
+    persist_reports:
+      type: boolean
+      description: ''
+      default: false
+    port:
+      type: integer
+      description: ''
+      default: 4002
+    primary_exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    use_rth:
+      type: boolean
+      description: ''
+      default: true
+  required:
+    - symbol

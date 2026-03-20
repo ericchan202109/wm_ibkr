@@ -1,0 +1,48 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/finalize_strategy_engine_output.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    aggregate:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    context:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    execution_event:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    execution_result:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    persisted_run:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    strategy_run:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - symbol
+    - context
+    - strategy_run
+    - aggregate

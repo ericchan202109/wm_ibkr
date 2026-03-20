@@ -1,0 +1,11 @@
+description: MinIO S3 resource for chart artifact storage
+resource_type: s3
+value:
+  bucket: trading-charts
+  region: us-east-1
+  endPoint: http://minio:9000
+  pathStyle: true
+  accessKey: minioadmin
+  secretKey: minioadmin
+  port: 9000
+  useSSL: false

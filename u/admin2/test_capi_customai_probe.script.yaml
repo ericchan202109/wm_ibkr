@@ -1,0 +1,27 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/test_capi_customai_probe.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    max_output_tokens:
+      type: integer
+      description: ''
+      default: 32
+    prompt:
+      type: string
+      description: ''
+      default: Reply with exactly ok
+      originalType: string
+    resource_path:
+      type: string
+      description: ''
+      default: u/admin2/capi_customai
+      originalType: string
+    timeout_s:
+      type: integer
+      description: ''
+      default: 60
+  required: []

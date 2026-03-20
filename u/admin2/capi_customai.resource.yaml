@@ -1,0 +1,10 @@
+description: AskAI custom AI resource backed by OpenAI Code
+value:
+  api: openai-responses
+  api_key: $var:u/admin2/capi_customai_api_key
+  base_url: https://capi.quan2go.com/openai
+  model:
+    id: gpt-5.4
+    name: gpt-5.4
+  provider: openai-code
+resource_type: customai

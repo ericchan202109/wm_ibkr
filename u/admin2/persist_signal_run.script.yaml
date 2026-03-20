@@ -1,0 +1,38 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/persist_signal_run.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    aggregate:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    context:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    strategy_run:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - symbol
+    - context
+    - strategy_run
+    - aggregate

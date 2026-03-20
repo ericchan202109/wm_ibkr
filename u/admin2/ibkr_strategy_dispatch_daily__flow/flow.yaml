@@ -1,0 +1,51 @@
+summary: Daily IBKR strategy dispatch
+description: Calls the daily dispatcher script and returns the batch-dispatch
+  summary for active symbols.
+value:
+  modules:
+    - id: dispatch_daily_symbols
+      value:
+        path: u/admin2/dispatch_due_symbols
+        type: script
+        is_trigger: false
+        input_transforms:
+          host:
+            expr: flow_input.host
+            type: javascript
+          port:
+            expr: flow_input.port
+            type: javascript
+          client_id:
+            expr: flow_input.client_id
+            type: javascript
+          db_resource_path:
+            expr: flow_input.db_resource_path
+            type: javascript
+          engine_flow_path:
+            expr: flow_input.engine_flow_path
+            type: javascript
+      summary: Dispatch active symbols for the current trading day
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    engine_flow_path:
+      type: string
+      default: u/admin2/ibkr_strategy_engine
+      description: Strategy engine flow path
+    db_resource_path:
+      type: string
+      default: u/admin2/supabase_postgresql
+      description: PostgreSQL resource path
+    host:
+      type: string
+      default: host.docker.internal
+      description: IBKR gateway host
+    port:
+      type: integer
+      default: 4002
+      description: IBKR gateway port
+    client_id:
+      type: integer
+      default: 7
+      description: IBKR client id

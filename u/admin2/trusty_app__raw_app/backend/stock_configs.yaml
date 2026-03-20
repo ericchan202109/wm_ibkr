@@ -1,0 +1,6 @@
+type: script
+path: u/admin2/list_stock_configs
+fields:
+  db_resource_path:
+    type: static
+    value: u/admin2/supabase_postgresql

@@ -1,0 +1,33 @@
+summary: Dispatch active symbols once per market day
+description: Launch the strategy engine flow for active symbols that have not
+  yet been dispatched for the configured trading day.
+lock: '!inline u/admin2/dispatch_due_symbols.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    client_id:
+      type: integer
+      description: ''
+      default: 7
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    engine_flow_path:
+      type: string
+      description: ''
+      default: u/admin2/ibkr_strategy_engine
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    port:
+      type: integer
+      description: ''
+      default: 4002
+  required: []

@@ -1,0 +1,92 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/upsert_stock_config.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    conid:
+      type: integer
+      description: ''
+      default: null
+    currency:
+      type: string
+      description: ''
+      default: USD
+      originalType: string
+    daily_run_time:
+      type: string
+      description: ''
+      default: 09:35
+      originalType: string
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    execution_mode:
+      type: string
+      description: ''
+      default: approval_gate
+      originalType: string
+    notes:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    order_exchange:
+      type: string
+      description: ''
+      default: SMART
+      originalType: string
+    primary_exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    sec_type:
+      type: string
+      description: ''
+      default: STK
+      originalType: string
+    status:
+      type: string
+      description: ''
+      default: ACTIVE
+      originalType: string
+    strategy_active:
+      type: boolean
+      description: ''
+      default: true
+    strategy_key:
+      type: string
+      description: ''
+      default: daily_weekly_llm
+      originalType: string
+    strategy_priority:
+      type: integer
+      description: ''
+      default: 10
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    timezone:
+      type: string
+      description: ''
+      default: America/New_York
+      originalType: string
+    use_rth:
+      type: boolean
+      description: ''
+      default: true
+  required:
+    - symbol
+    - conid

@@ -1,0 +1,63 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/ibkr_fetch_report_data.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    bar_size:
+      type: string
+      description: ''
+      default: 1 day
+      originalType: string
+    client_id:
+      type: integer
+      description: ''
+      default: 7
+    currency:
+      type: string
+      description: ''
+      default: USD
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    include_full_articles:
+      type: boolean
+      description: ''
+      default: true
+    lookback_days:
+      type: integer
+      description: ''
+      default: 180
+    news_days:
+      type: integer
+      description: ''
+      default: 7
+    news_limit:
+      type: integer
+      description: ''
+      default: 50
+    port:
+      type: integer
+      description: ''
+      default: 4002
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    use_rth:
+      type: boolean
+      description: ''
+      default: true
+  required:
+    - symbol

@@ -1,0 +1,32 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/sync_ibkr_portfolio.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    account_id:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    client_id:
+      type: integer
+      description: ''
+      default: 21
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    port:
+      type: integer
+      description: ''
+      default: 4002
+  required: []

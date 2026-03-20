@@ -1,0 +1,86 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/run_active_strategies.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    client_id:
+      type: integer
+      description: ''
+      default: 7
+    currency:
+      type: string
+      description: ''
+      default: USD
+      originalType: string
+    data_mode:
+      type: string
+      description: ''
+      default: run_new
+      originalType: string
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    exchange:
+      type: string
+      description: ''
+      default: NASDAQ
+      originalType: string
+    host:
+      type: string
+      description: ''
+      default: host.docker.internal
+      originalType: string
+    llm_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/capi_customai
+      originalType: string
+    persist_reports:
+      type: boolean
+      description: ''
+      default: false
+    port:
+      type: integer
+      description: ''
+      default: 4002
+    s3_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/minio_s3
+      originalType: string
+    strategies:
+      type: array
+      description: ''
+      default: null
+      items:
+        type: string
+      originalType: string[]
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    symbol_config:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    use_rth:
+      type: boolean
+      description: ''
+      default: true
+    workflow_config:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+  required:
+    - symbol
+    - strategies
+    - workflow_config
+    - symbol_config

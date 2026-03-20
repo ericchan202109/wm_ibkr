@@ -1,0 +1,101 @@
+summary: Run stock report pipeline (script mode)
+description: Orchestrate fetch, render, and optional persistence without relying
+  on flow CLI result retrieval
+lock: '!inline u/admin2/run_stock_report.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    bar_size:
+      type: string
+      description: IBKR bar size for historical candles (example 1 day)
+      default: 1 day
+      originalType: string
+    client_id:
+      type: integer
+      description: IBKR API client id for this run
+      default: 7
+    contracts_meta_data:
+      type: integer
+      description: Filter value used when loading symbols from contracts.meta_data
+      default: 3
+    currency:
+      type: string
+      description: Contract currency
+      default: USD
+      originalType: string
+    db_resource_path:
+      type: string
+      description: PostgreSQL resource path used for persistence and contract lookup
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    exchange:
+      type: string
+      description: IBKR exchange code for contract qualification
+      default: NASDAQ
+      originalType: string
+    history_limit:
+      type: integer
+      description: Number of persisted history rows to load for UI history
+      default: 10
+    history_symbol:
+      type: string
+      description: Symbol used to query persisted history (AUTO uses resolved symbol)
+      default: AUTO
+      originalType: string
+    host:
+      type: string
+      description: IBKR gateway host
+      default: host.docker.internal
+      originalType: string
+    include_full_articles:
+      type: boolean
+      description: Include full article text when available in fetched news
+      default: true
+    load_latest:
+      type: boolean
+      description: If true, load latest persisted report instead of fetching new data
+      default: false
+    lookback_days:
+      type: integer
+      description: Historical lookback window in days
+      default: 180
+    news_compact_mode:
+      type: boolean
+      description: Render compact news section in final report
+      default: true
+    news_days:
+      type: integer
+      description: News lookback window in days
+      default: 7
+    news_limit:
+      type: integer
+      description: Maximum number of news items to fetch
+      default: 50
+    news_markdown_top_n:
+      type: integer
+      description: Number of top news items to include in markdown report
+      default: 8
+    persist:
+      type: boolean
+      description: Persist successful report output into PostgreSQL
+      default: true
+    port:
+      type: integer
+      description: IBKR gateway port
+      default: 4002
+    run_new:
+      type: boolean
+      description: If true, fetch fresh IBKR data and render a new report
+      default: false
+    symbol:
+      type: string
+      description: Ticker symbol (AUTO loads first contracts symbol by contracts_meta_data)
+      default: AUTO
+      originalType: string
+    use_rth:
+      type: boolean
+      description: Use regular trading hours only for historical bars
+      default: true
+  required: []

@@ -7,8 +7,6 @@ description: MUST use when using the CLI.
 
 The Windmill CLI (`wmill`) provides commands for managing scripts, flows, apps, and other resources.
 
-Current version: 1.624.0
-
 ## Global Options
 
 - `--workspace <workspace:string>` - Specify the target workspace. This overrides the default workspace.
@@ -33,7 +31,7 @@ app related commands
   - `--json` - Output as JSON (for piping to jq)
 - `app get <path:string>` - get an app's details
   - `--json` - Output as JSON (for piping to jq)
-- `app push <file_path:string> <remote_path:string>` - push a local app
+- `app push <file_path:string> <remote_path:string>` - push a local app 
 - `app dev [app_folder:string]` - Start a development server for building apps with live reload and hot module replacement
   - `--port <port:number>` - Port to run the dev server on (will find next available port if occupied)
   - `--host <host:string>` - Host to bind the dev server to
@@ -65,6 +63,15 @@ Launch a dev server that will spawn a webserver with HMR
 **Options:**
 - `--includes <pattern...:string>` - Filter paths givena glob pattern or path
 
+### docs
+
+Search Windmill documentation. Requires Enterprise Edition.
+
+**Arguments:** `<query:string>`
+
+**Options:**
+- `--json` - Output results as JSON.
+
 ### flow
 
 flow related commands
@@ -94,7 +101,7 @@ flow related commands
 - `flow new <flow_path:string>` - create a new empty flow
   - `--summary <summary:string>` - flow summary
   - `--description <description:string>` - flow description
-- `flow bootstrap <flow_path:string>` - create a new empty flow (alias for new)
+- `flow bootstrap <flow_path:string>` - create a new empty flow (alias for new
   - `--summary <summary:string>` - flow summary
   - `--description <description:string>` - flow description
 
@@ -112,7 +119,27 @@ folder related commands
 - `folder get <name:string>` - get a folder's details
   - `--json` - Output as JSON (for piping to jq)
 - `folder new <name:string>` - create a new folder locally
-- `folder push <file_path:string> <remote_path:string>` - push a local folder spec. This overrides any remote versions.
+  - `--summary <summary:string>` - folder summary
+- `folder push <name:string>` - push a local folder to the remote by name. This overrides any remote versions.
+- `folder add-missing` - create default folder.meta.yaml for all subdirectories of f/ that are missing one
+  - `-y, --yes` - skip confirmation prompt
+
+### generate-metadata
+
+Generate metadata (locks, schemas) for all scripts, flows, and apps
+
+**Arguments:** `[folder:string]`
+
+**Options:**
+- `--yes` - Skip confirmation prompt
+- `--dry-run` - Show what would be updated without making changes
+- `--lock-only` - Re-generate only the lock files
+- `--schema-only` - Re-generate only script schemas (skips flows and apps)
+- `--skip-scripts` - Skip processing scripts
+- `--skip-flows` - Skip processing flows
+- `--skip-apps` - Skip processing apps
+- `-i --includes <patterns:file[]>` - Comma separated patterns to specify which files to include
+- `-e --excludes <patterns:file[]>` - Comma separated patterns to specify which files to exclude
 
 ### gitsync-settings
 
@@ -191,6 +218,9 @@ sync local with a remote instance or the opposite (push or pull)
   - `--prefix <prefix:string>` - Prefix of the local workspaces folders to push
   - `--prefix-settings` - Store instance yamls inside prefixed folders when using --prefix and --folder-per-instance
 - `instance whoami` - Display information about the currently logged-in user
+- `instance get-config` - Dump the current instance config (global settings + worker configs) as YAML
+  - `-o, --output-file <file:string>` - Write YAML to a file instead of stdout
+  - `--instance <instance:string>` - Name of the instance, override the active instance
 
 ### jobs
 
@@ -207,6 +237,17 @@ Pull completed and queued jobs from workspace
 
 - `jobs pull`
 - `jobs push`
+
+### lint
+
+Validate Windmill flow, schedule, and trigger YAML files in a directory
+
+**Arguments:** `[directory:string]`
+
+**Options:**
+- `--json` - Output results in JSON format
+- `--fail-on-warn` - Exit with code 1 when warnings are emitted
+- `--locks-required` - Fail if scripts or flow inline scripts that need locks have no locks
 
 ### queues
 
@@ -281,10 +322,10 @@ script related commands
 - `script list` - list all scripts
   - `--show-archived` - Enable archived scripts in output
   - `--json` - Output as JSON (for piping to jq)
+- `script push <path:file>` - push a local script spec. This overrides any remote versions. Use the script file (.ts, .js, .py, .sh
 - `script get <path:file>` - get a script's details
   - `--json` - Output as JSON (for piping to jq)
-- `script show <path:file>` - show a script's content (alias for get)
-- `script push <path:file>` - push a local script spec. This overrides any remote versions. Use the script file (.ts, .js, .py, .sh)
+- `script show <path:file>` - show a script's content (alias for get
 - `script run <path:file>` - run a script by path
   - `-d --data <data:file>` - Inputs specified as a JSON string or a file using @<filename> or stdin using @-.
   - `-s --silent` - Do not output anything other then the final output. Useful for scripting.
@@ -294,10 +335,10 @@ script related commands
 - `script new <path:file> <language:string>` - create a new script
   - `--summary <summary:string>` - script summary
   - `--description <description:string>` - script description
-- `script bootstrap <path:file> <language:string>` - create a new script (alias for new)
+- `script bootstrap <path:file> <language:string>` - create a new script (alias for new
   - `--summary <summary:string>` - script summary
   - `--description <description:string>` - script description
-- `script generate-metadata [script:file]` - re-generate the metadata file updating the lock and the script schema (for flows, use `wmill flow generate-locks`)
+- `script generate-metadata [script:file]` - re-generate the metadata file updating the lock and the script schema (for flows, use `wmill flow generate-locks`
   - `--yes` - Skip confirmation prompt
   - `--dry-run` - Perform a dry run without making changes
   - `--lock-only` - re-generate only the lock
@@ -370,6 +411,8 @@ sync local with a remote workspaces or the opposite (push or pull)
   - `--parallel <number>` - Number of changes to process in parallel
   - `--repository <repo:string>` - Specify repository path (e.g., u/user/repo) when multiple repositories exist
   - `--branch <branch:string>` - Override the current git branch (works even outside a git repository)
+  - `--lint` - Run lint validation before pushing
+  - `--locks-required` - Fail if scripts or flow inline scripts that need locks have no locks
 
 ### trigger
 
@@ -384,7 +427,7 @@ trigger related commands
   - `--json` - Output as JSON (for piping to jq)
 - `trigger get <path:string>` - get a trigger's details
   - `--json` - Output as JSON (for piping to jq)
-  - `--kind <kind:string>` - Trigger kind (http, websocket, kafka, nats, postgres, mqtt, sqs, gcp, email)
+  - `--kind <kind:string>` - Trigger kind (http, websocket, kafka, nats, postgres, mqtt, sqs, gcp, email). Recommended for faster lookup
 - `trigger new <path:string>` - create a new trigger locally
   - `--kind <kind:string>` - Trigger kind (required: http, websocket, kafka, nats, postgres, mqtt, sqs, gcp, email)
 - `trigger push <file_path:string> <remote_path:string>` - push a local trigger spec. This overrides any remote versions.
@@ -466,7 +509,8 @@ workspace related commands
   - `--create-username <username:string>` - Specify your own username in the newly created workspace. Ignored if --create is not specified, the workspace already exists or automatic username creation is enabled on the instance.
 - `workspace remove <workspace_name:string>` - Remove a workspace
 - `workspace whoami` - Show the currently active user
-- `workspace list` - List workspaces on the remote server that you have access to
+- `workspace list` - List local workspace profiles
+- `workspace list-remote` - List workspaces on the remote server that you have access to
 - `workspace bind` - Bind the current Git branch to the active workspace
   - `--branch <branch:string>` - Specify branch (defaults to current)
 - `workspace unbind` - Remove workspace binding from the current Git branch

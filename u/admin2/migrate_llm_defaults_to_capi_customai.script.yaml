@@ -1,0 +1,34 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/migrate_llm_defaults_to_capi_customai.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    new_model:
+      type: string
+      description: ''
+      default: gpt-5.4
+      originalType: string
+    new_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/capi_customai
+      originalType: string
+    old_model:
+      type: string
+      description: ''
+      default: claude-3-7-sonnet-latest
+      originalType: string
+    old_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/successful_anthropic
+      originalType: string
+  required: []

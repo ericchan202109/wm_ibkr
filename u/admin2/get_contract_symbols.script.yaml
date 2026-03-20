@@ -1,0 +1,28 @@
+summary: Get contracts symbols for app dropdown
+description: Load symbol options from PostgreSQL contracts table with meta_data
+  filtering and TSLA fallback
+lock: '!inline u/admin2/get_contract_symbols.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    contracts_meta_data:
+      type: integer
+      description: contracts.meta_data filter
+      default: 3
+    db_resource_path:
+      type: string
+      description: PostgreSQL resource path
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    limit:
+      type: integer
+      description: Maximum symbols to return
+      default: 500
+    search:
+      type: string
+      description: Optional case-insensitive symbol search
+      default: null
+      originalType: string
+  required: []

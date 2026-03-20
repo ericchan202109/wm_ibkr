@@ -1,0 +1,92 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/place_ibkr_signal_order.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    client_id:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    currency:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    dry_run:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    exchange:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    host:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    limit_price:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    order_type:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    outside_rth:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    port:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    primary_exchange:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+    quantity:
+      type: number
+      description: ''
+      default: null
+    side:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    time_in_force:
+      type: object
+      description: ''
+      default: null
+      format: resource-option
+  required:
+    - symbol
+    - side
+    - quantity
+    - order_type
+    - limit_price
+    - time_in_force
+    - host
+    - port
+    - client_id
+    - exchange
+    - primary_exchange
+    - currency
+    - outside_rth
+    - dry_run

@@ -12,7 +12,7 @@ skipScripts: false
 skipFlows: false
 skipApps: false
 skipFolders: false
-includeSchedules: false
+includeSchedules: true
 includeTriggers: false
 includeUsers: false
 includeGroups: false

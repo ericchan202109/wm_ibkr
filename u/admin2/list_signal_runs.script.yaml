@@ -1,0 +1,58 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/list_signal_runs.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    approval_status:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    canonical_strategy_key:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    created_after:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    created_before:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    final_signal:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    limit:
+      type: integer
+      description: ''
+      default: 200
+    order_status:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    source_flow_job_id:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: ''
+      originalType: string
+  required: []

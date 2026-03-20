@@ -1,0 +1,74 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/generate_integrated_ibkr_signal.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    daily_chart:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    daily_report:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    llm_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/capi_customai
+      originalType: string
+    strategy_context:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    strategy_key:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    strategy_name:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+    symbol_config:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    weekly_chart:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    weekly_report:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    workflow_config:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+  required:
+    - symbol
+    - strategy_key
+    - strategy_name
+    - strategy_context
+    - workflow_config
+    - symbol_config
+    - daily_report
+    - weekly_report
+    - daily_chart
+    - weekly_chart

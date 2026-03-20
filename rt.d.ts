@@ -33,6 +33,8 @@ declare namespace RT {
     apiKey: string
   }
 
+  type AgentInstructions = any
+
   type Ai21 = {
     apiKey: string
   }
@@ -530,7 +532,8 @@ declare namespace RT {
 
   type Googleai = {
     api_key: string,
-    base_url: string
+    base_url: string,
+    platform: string
   }
 
   type Gorgias = {
@@ -697,6 +700,11 @@ declare namespace RT {
 
   type Mailgun = {
     api_key: string
+  }
+
+  type Mapbox = {
+    username: string,
+    access_token: string
   }
 
   type Mastodon = {

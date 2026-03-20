@@ -6,6 +6,10 @@ schema:
   $schema: https://json-schema.org/draft/2020-12/schema
   type: object
   properties:
+    client_id:
+      type: integer
+      description: ''
+      default: 7
     exchange:
       type: string
       description: ''

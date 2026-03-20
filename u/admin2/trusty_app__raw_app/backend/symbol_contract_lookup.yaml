@@ -1,0 +1,12 @@
+type: script
+path: u/admin2/ibkr_symbol_conid
+fields:
+  host:
+    type: static
+    value: host.docker.internal
+  port:
+    type: static
+    value: 4002
+  client_id:
+    type: static
+    value: 7

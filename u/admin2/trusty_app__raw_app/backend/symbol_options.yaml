@@ -1,0 +1,12 @@
+type: script
+path: u/admin2/get_contract_symbols
+fields:
+  contracts_meta_data:
+    type: static
+    value: 3
+  db_resource_path:
+    type: static
+    value: u/admin2/supabase_postgresql
+  limit:
+    type: static
+    value: 1000

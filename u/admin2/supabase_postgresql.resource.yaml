@@ -1,0 +1,10 @@
+description: Local Supabase PostgreSQL database for Windmill workloads
+value:
+  dbname: windmill
+  host: host.docker.internal
+  password: $var:u/admin2/supabase_postgresql
+  port: 54322
+  root_certificate_pem: ''
+  sslmode: disable
+  user: postgres
+resource_type: postgresql

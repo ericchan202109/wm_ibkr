@@ -1,0 +1,1162 @@
+{
+  "name": "IBKR.2.Indicator.4.Prod",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://localhost:5056/api/authenticate",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1700,
+        1240
+      ],
+      "id": "95c95b28-7294-466d-86e4-3be1702c7980",
+      "name": "isAuth",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e37e64f6-64e7-4fbd-9ea1-e9d3ef99b39c",
+              "name": "response",
+              "type": "string",
+              "value": "={{ $json.text }}\n"
+            },
+            {
+              "id": "226869a2-1023-4180-ab95-bd9e91fa420d",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "041335b7-fc4c-4f28-a933-a1934864dafa",
+      "name": "Response",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1480,
+        1000
+      ],
+      "typeVersion": 3.3
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        656,
+        990
+      ],
+      "id": "562b5254-0bdd-4f9f-8fea-8d5b7035a443",
+      "name": "Merge",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "append",
+              "field": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        876,
+        990
+      ],
+      "id": "1ab29c34-f20a-4ad6-b5ad-facc65983cc7",
+      "name": "Summarize",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analysis Date: {{$now}}\n\n## 日線分析摘要\n{{ $json.appended_text[0] }}\n\n## 週線分析摘要\n{{ $json.appended_text[1] }}\n\n# 整合技術分析報告\n\n## 1. 價格與趨勢概述\n- 目前價格與整體趨勢狀態\n- 日線主要趨勢方向與強度\n- 週線趨勢確認情況\n- 價格相對於關鍵支撐阻力位置\n- 跨時間框架趨勢一致性評估\n\n## 2. 技術分析摘要\n- SuperTrend信號在日線與週線的狀態\n- 移動平均線系統跨時間框架分析\n- 動能指標(MACD、RSI)關鍵讀數與確認\n- 波動性指標(ATR、布林帶)重要數值\n- 成交量分析與跨時間框架確認\n- 關鍵技術形態與影響\n\n## 3. 多時間框架信號確認系統\n- 日線3/4規則信號結果\n- 週線對日線信號的支持/反對程度\n- 跨時間框架確認強度[強/中/弱]\n- 任何顯著的時間框架衝突與解決方案\n- 最終確認信號判定[確認/部分確認/未確認]\n\n## 4. 詳細交易建議\n- 綜合趨勢判斷：[強烈看漲/看漲/中性/看跌/強烈看跌]\n- 交易信號：[進場/持有/出場]\n\nA. 如果看漲(多頭):\n   - 建議進場區間：[具體價格範圍]\n   - 止損位：[具體價格] (基於日線ATR，週線確認)\n   - 目標價格：\n     * 第一目標(保守)：[具體價格] - [技術依據]\n     * 第二目標(進取)：[具體價格] - [技術依據]\n   - R倍數：[具體數值]計算\n   - 預期獲利百分比：[具體數值]%\n\nB. 如果看跌(空頭):\n   - 建議進場區間：[具體價格範圍]\n   - 止損位：[具體價格] (基於日線ATR，週線確認)\n   - 目標價格：\n     * 第一目標(保守)：[具體價格] - [技術依據]\n     * 第二目標(進取)：[具體價格] - [技術依據]\n   - R倍數：[具體數值]計算\n   - 預期獲利百分比：[具體數值]%\n\n- 建議倉位大小：[%]\n- 交易時機與執行策略\n- 階段性目標與調整點\n\n## 5. 風險評估\n- 主要技術風險因素\n- 週線圖識別的額外風險考量\n- 關鍵反轉價格與警戒點\n- 潛在信號失敗情境\n- 跨時間框架的風險監控重點\n- 如何管理及降低已識別風險\n\n## 6. 結論\n- 最終交易建議摘要\n- 主要理由與技術依據\n- 關鍵監控指標與時間點\n- 交易計劃時效性與後續更新建議\n\n請提供詳細而全面的整合分析，確保所有交易參數清晰明確，並著重說明關鍵技術依據。報告應突出日線分析為主導，同時展示週線趨勢如何確認或調整主要交易觀點。",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are a professional technical analyst creating a comprehensive trading recommendation based primarily on daily chart analysis, with weekly chart serving as trend confirmation. Please synthesize a detailed final analysis report for focused on medium-term (30-180 days) trading opportunities.\n不需要額外輸出週線趨勢確認分析，週線分析僅作為趨勢確認使用。\n\n使用通順的繁體中文回覆我。\n\n##字詞翻譯轉換\n- 回調 -> 回檔\n- 股利 -> 股息\n- 派息 -> 配息\n- 增長 -> 成長\n- 視頻 -> 影片\n- 音頻 -> 語音\n- 智能 -> 智慧\n- 邊程 -> 寫程式\n- 創建 -> 建立\n- 編程 -> 程式開發"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        1096,
+        990
+      ],
+      "id": "edf56752-e856-40e7-a4c0-6a12fe272525",
+      "name": "Consolidate Daily&Weekly",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analysis Date: {{$now}}\n\n# 以下是日線分析結果\n\n## 1. 核心價格分析\n- 目前價格與趨勢概述\n- 關鍵支撐/阻力位\n- 重要K線形態與價格結構\n- 圖表時間範圍：日線圖(主要)與週線圖(確認)\n\n## 2. 趨勢指標分析\nA. SuperTrend (10,3)：\n   - 目前狀態：[上升趨勢/下降趨勢]\n   - 信號顏色：[綠色/紅色]\n   - 與價格的相對位置與最近變化\n\nB. 移動平均線系統：\n   - 20日SMA：短期趨勢方向\n   - 50日SMA：中期趨勢方向\n   - 200日SMA：長期趨勢方向\n   - 黃金/死亡交叉情況\n   - 價格與均線的關係(支撐/阻力)\n\n## 3. 確認指標分析\nA. 動能確認：\n   - MACD (12,26,9)狀態與信號\n   - RSI (14)水平與方向[超買/超賣/中性]\n\nB. 波動性分析：\n   - ATR (14)數值與趨勢\n   - 布林帶(20,2)寬度與價格位置\n\nC. 成交量分析：\n   - 目前成交量vs.20日平均\n   - 成交量趨勢特徵\n   - OBV走勢與價格確認\n\n## 4. 信號確認系統(3/4規則)\n以下信號中，至少滿足3項才確認交易方向：\n- SuperTrend信號方向[看漲/看跌]\n- 價格與20日SMA關係[上方/下方]\n- MACD信號線交叉[買入/賣出]\n- RSI相對位置[>50看漲/<50看跌]\n\n## 5. 交易建議\n- 綜合趨勢判斷：[強烈看漲/看漲/中性/看跌/強烈看跌]\n- 交易信號：[進場/持有/出場]\n\nA. 如果看漲(多頭):\n   - 進場區間：[價格區間]\n   - 止損位：入場價 - (2 × ATR)，約[具體數值]\n   \n   - 獲利目標：[高於目前價格的目標]\n   - 目標價依據：\n     * 第一目標(保守)：[數值] - 基於[支撐阻力/圖表形態/指標水平]\n     * 第二目標(進取)：[數值] - 基於[支撐阻力/圖表形態/指標水平]\n   \n   - R倍數計算：(目標價 - 入場價) ÷ (入場價 - 止損位) = ?R\n\nB. 如果看跌(空頭):\n   - 進場區間：[價格區間]\n   - 止損位：入場價 + (2 × ATR)，約[具體數值]\n   \n   - 獲利目標：[低於目前價格的目標]\n   - 目標價依據：\n     * 第一目標(保守)：[數值] - 基於[支撐阻力/圖表形態/指標水平]\n     * 第二目標(進取)：[數值] - 基於[支撐阻力/圖表形態/指標水平]\n   \n   - R倍數計算：(入場價 - 目標價) ÷ (止損位 - 入場價) = ?R\n\n- 建議倉位大小：[%，基於固定風險管理]\n\n## 6. 風險評估\n- 主要技術風險\n- 關鍵反轉價格\n- 潛在信號失敗情境\n- 週線圖確認情況\n\n請提供綜合判斷並清晰說明理由，重點解釋關鍵指標之間的相互確認/矛盾情況。只有當多項指標同時確認時才給出明確入場建議。分析目標價時必須說明技術依據，如支撐阻力位、圖表形態測量、斐波那契水平、布林帶目標、均線位置、量能目標或波動幅度投射等。\n\n## 目標價設定參考依據\n分析目標價時，請從以下技術因素中選擇最適合的依據：\n\n1. 前期支撐/阻力位：歷史高低點、交易密集區\n2. 圖表形態投射：頭肩頂/底、三角形/旗形/楔形等形態測量目標\n3. 斐波那契水平：延伸(127.2%, 161.8%)或回調(38.2%, 50%, 61.8%)\n4. 布林帶目標：布林帶上/下軌或寬度投射\n5. 移動平均線目標：重要均線位置或交叉點\n6. 量能目標：成交量分佈峰值、成交量力場高低點\n7. 波動幅度投射：基於ATR的波動範圍(如3倍ATR)\n\n每個目標價必須選擇至少一項技術依據，並解釋為何這是合理的價格目標。",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data1"
+            },
+            {
+              "message": "=You are a professional technical analyst specialized in medium-term trading (30-180 days holding period) based on Daily candle chart of {{ $('Loop Over Items').item.json.code.symbol }}. Please analyze using the following framework.  \n\n使用通順的繁體中文回覆我  \n\n##字詞翻譯轉換 \n- 回調 -> 回檔 \n- 股利 -> 股息 \n- 派息 -> 配息 \n- 視頻 -> 影片 \n- 音頻 -> 語音 \n- 增長 -> 成長 \n- 智能 -> 智慧 \n- 編程 -> 寫程式"
+            }
+          ]
+        }
+      },
+      "id": "58a90810-00f7-45b8-b7e9-52c4c8fcf67f",
+      "name": "Analyze Daily Chart",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        280,
+        740
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analysis Date: {{$now}}\n\n# 以下是週線分析結果\n\n## 1. 中期趨勢評估\n- 近12個月週線趨勢方向與強度[上升/盤整/下降]\n- 主要趨勢線與通道分析\n- 週線趨勢階段判定[初期/中期/後期]\n- SuperTrend週線指標狀態\n\n## 2. 關鍵價位分析\n- 12個月內主要支撐位[價格區間與重要性]\n- 12個月內主要阻力位[價格區間與重要性]\n- 目前價格相對區間位置評估\n- 中期價值區間判定\n\n## 3. 週線指標分析\n- 週線RSI(14)：中期超買/超賣狀態\n- 週線MACD(12,26,9)：中期動能\n- 週線平均線系統：10週/20週/50週均線關係\n- 週線布林帶(20,2)位置與寬度\n\n## 4. 中期價格形態\n- 近期形成的週線圖形態\n- 週線突破/回踩情況\n- 近期的反轉信號\n- 中期趨勢強度評估\n\n## 5. 週線成交量特徵\n- 週線成交量趨勢\n- 重要週線量價關係\n- 週線OBV趨勢\n- 異常成交量週分析\n\n## 6. 日線與週線協同分析\n- 日線與週線趨勢一致性判斷\n- 趨勢衝突分析(如有)\n- 週線如何支持或反對日線信號\n- 日線信號在週線背景下的可靠性\n\n## 7. 中期展望(30-180天)\n- 未來1-6個月趨勢預期\n- 關鍵轉折點識別\n- 中期持有的主要風險\n- 最值得關注的週線預警信號\n\n請提供週線圖的中期趨勢分析，特別強調週線和日線信號的一致性或差異性，為30-180天的交易決策提供參考。分析應關注形態的完整性、趨勢的強度以及支撐阻力位的可靠性。",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary",
+              "binaryImageDataKey": "data2"
+            },
+            {
+              "message": "=You are a professional technical analyst specializing in weekly chart analysis. Please analyze the weekly chart of  in exchange  for the past 12 months, focusing on trend confirmation to support medium-term (30-180 days) trading decisions.  \n\n使用通順的繁體中文回覆我  \n\n##字詞翻譯轉換 \n- 回調 -> 回檔 \n- 股利 -> 股息 \n- 派息 -> 配息 \n- 視頻 -> 影片 \n- 音頻 -> 語音 \n- 增長 -> 成長 \n- 智能 -> 智慧 \n- 編程 -> 寫程式"
+            }
+          ]
+        }
+      },
+      "id": "4eadc7b1-124c-451f-a2a7-921d0e9a0605",
+      "name": "Analyze Weekly Chart",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        280,
+        1140
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "two_indicator",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b6657f30-05e5-41fd-a255-3b1844ef5af0"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": false
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1040,
+        1240
+      ],
+      "id": "2fd0c9aa-9213-4b12-a5b1-f18fb50ab3ed",
+      "name": "Switch",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "pp4u99r7fop2zir",
+        "table": "myd83rkit5jdd0j",
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1260,
+        1240
+      ],
+      "id": "d23e38b6-67fd-494b-b2af-627bced599ec",
+      "name": "Get Strategy",
+      "executeOnce": false,
+      "alwaysOutputData": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "lk1LJnup64tkyCPM",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.0-flash",
+          "mode": "list",
+          "cachedResultName": "gemini-2.0-flash"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        960
+      ],
+      "id": "4f407e4d-664f-4eab-be11-584726632d22",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "05LOd5iWiYWeNxvA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.0-flash",
+          "mode": "list",
+          "cachedResultName": "gemini-2.0-flash"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1180,
+        1220
+      ],
+      "id": "51bf5d1c-6dde-416f-94c3-3c8cd1591047",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "05LOd5iWiYWeNxvA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "bucketName": "n8n",
+        "fileKey": "={{ $json[\"chart_url\"].match(/n8n\\/(.+)$/) ? $json[\"chart_url\"].match(/n8n\\/(.+)$/)[1] : \"\" }}",
+        "binaryPropertyName": "data1"
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        60,
+        700
+      ],
+      "id": "77174a02-b92c-4ba2-9a0f-1e5ab972697c",
+      "name": "S31",
+      "credentials": {
+        "s3": {
+          "id": "K8a0TpUeqjKapm4u",
+          "name": "S3 account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "bucketName": "n8n",
+        "fileKey": "={{ $json[\"chart_url\"].match(/n8n\\/(.+)$/) ? $json[\"chart_url\"].match(/n8n\\/(.+)$/)[1] : \"\" }}",
+        "binaryPropertyName": "data2"
+      },
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 1,
+      "position": [
+        60,
+        1240
+      ],
+      "id": "0e69abc8-f97e-4b07-84a2-d09539c91d24",
+      "name": "S32",
+      "credentials": {
+        "s3": {
+          "id": "K8a0TpUeqjKapm4u",
+          "name": "S3 account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nif ($input.first().json.status == undefined)\n   $input.first().json.mode = 'offline'\nelse\n   $input.first().json.mode = 'offline'\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1480,
+        1240
+      ],
+      "id": "4ba030fb-7107-43c1-a612-de9103db0794",
+      "name": "Code",
+      "retryOnFail": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-4688456849",
+        "binaryData": true,
+        "binaryPropertyName": "data1",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        358,
+        540
+      ],
+      "id": "f5c24598-682b-47a6-ac65-faa590563827",
+      "name": "Telegram1",
+      "webhookId": "85f061e8-e31e-4efe-b697-331797cb5f65",
+      "credentials": {
+        "telegramApi": {
+          "id": "G1c9U2HF7fRTzVjL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemini-2.0-flash",
+          "mode": "list",
+          "cachedResultName": "gemini-2.0-flash"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1560,
+        1640
+      ],
+      "id": "5b5445aa-3baa-4cef-b88c-43ece83c7e0c",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "05LOd5iWiYWeNxvA",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\"current_price\":221.86,\n  \"profit_margin\":0,\n  \"R coefficient\":0,\n  \"target_price\":200,\n  \"code\":\"TSLA\",\n  \"type\":\"sell\",\n  \"stragegy_used\": \"Indicator_1Y_1D_1Y_1W\"}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1880,
+        1640
+      ],
+      "id": "d05e525e-39c7-41a0-9a22-71e805c45759",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "pp4u99r7fop2zir",
+        "table": "mev3wtdakkjcl5u",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "code",
+              "fieldValue": "={{ $json.output.code }}"
+            },
+            {
+              "fieldName": "type",
+              "fieldValue": "={{ $json.output.type }}"
+            },
+            {
+              "fieldName": "current_price",
+              "fieldValue": "={{ $json.output.current_price }}"
+            },
+            {
+              "fieldName": "strategy_used",
+              "fieldValue": "={{ $json.output.stragegy_used }}"
+            },
+            {
+              "fieldName": "target_price",
+              "fieldValue": "={{ $json.output.target_price }}"
+            },
+            {
+              "fieldName": "profit_margin",
+              "fieldValue": "={{ $json.output.profit_margin }}"
+            },
+            {
+              "fieldName": "R coefficient",
+              "fieldValue": "={{ $json.output['R coefficient'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2300,
+        1420
+      ],
+      "id": "a377fd82-dde0-4725-b150-fca56c69f0a2",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "lk1LJnup64tkyCPM",
+          "name": "NocoDB Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://localhost:5056/order",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "conid",
+              "value": "={{ $json.code }}"
+            },
+            {
+              "name": "price",
+              "value": "={{ $json.current_price }}"
+            },
+            {
+              "name": "quantity",
+              "value": "1"
+            },
+            {
+              "name": "side",
+              "value": "={{ $json.type }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2500,
+        1420
+      ],
+      "id": "6bc51748-02f0-4767-bb29-52626ed64a88",
+      "name": "place order",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "-4688456849",
+        "binaryData": true,
+        "binaryPropertyName": "data2",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        358,
+        1340
+      ],
+      "id": "7bd98dcd-21c7-4b63-869d-101afbd7d166",
+      "name": "Telegram2",
+      "webhookId": "d256ffd8-3c81-4e54-adef-5655abf13691",
+      "credentials": {
+        "telegramApi": {
+          "id": "G1c9U2HF7fRTzVjL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d81bf067-fef9-4a93-80bf-3d9e63f4f522",
+              "leftValue": "={{ $json.output.type }}",
+              "rightValue": "sell",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "a41cac09-c074-41a7-bae8-803e2e1d33e0",
+              "leftValue": "={{ $json.output.type }}",
+              "rightValue": "buy",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2080,
+        1500
+      ],
+      "id": "d8089503-7f03-4693-894a-670e26fa4669",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "folderId": "1gsx9y9kpap_vworzMndvwK3U9VpCeFan",
+        "title": "={{ $('Loop Over Items').item.json.code.symbol }}_{{ $now }}.docx"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2068,
+        940
+      ],
+      "id": "4c705407-e8be-48a7-92e8-db11f7f7a3ee",
+      "name": "Google Docs1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "8lsBuzlLZbthWfMH",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('Response').item.json.response }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2280,
+        940
+      ],
+      "id": "9f3a63cb-30db-4c93-b391-4920e9a2c478",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "8lsBuzlLZbthWfMH",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.strategy_param =JSON.parse(item.json.param);\n  console.log(item.json.strategy_param);\n}\nconsole.log($input)\nreturn $input.all();\n//return $('Get Strategy').first().json.nc_sfj0___nc_m2m_strategy_nc_sfj0__codes"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -820,
+        1240
+      ],
+      "id": "a9a6ef01-bc20-425d-97c5-a2cdf52b3030",
+      "name": "Parse JSON",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "=https://localhost:5056/history_chart/{{ $json.code.conid }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "period",
+              "value": "={{ $('Parse JSON').item.json.strategy_param.period_1 }}"
+            },
+            {
+              "name": "bar",
+              "value": "={{ $('Parse JSON').item.json.strategy_param.bar_1 }}"
+            },
+            {
+              "name": "mode",
+              "value": "={{ $('Code').item.json.mode }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        700
+      ],
+      "id": "01647399-c44b-474a-8621-d8f883123937",
+      "name": "Daily Chart",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "url": "=https://localhost:5056/history_chart/{{ $json.code.conid }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "period",
+              "value": "={{ $('Parse JSON').item.json.strategy_param.period_2 }}"
+            },
+            {
+              "name": "bar",
+              "value": "={{ $('Parse JSON').item.json.strategy_param.bar_2 }}"
+            },
+            {
+              "name": "mode",
+              "value": "={{ $('Code').item.json.mode }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        1240
+      ],
+      "id": "6c06bfaf-5e06-4c60-a2e4-5ac29e59c986",
+      "name": "Weekly Chart",
+      "executeOnce": false,
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1920,
+        1240
+      ],
+      "id": "bc50ce1d-4c6d-4974-9b79-71aa95f84191",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -380,
+        1240
+      ],
+      "id": "4f31f7c3-d710-4f51-8d88-1fc3c8221ea2",
+      "name": "Loop Over Items",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return $('Get Strategy').first().json.nc_sfj0___nc_m2m_strategy_nc_sfj0__codes"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        1240
+      ],
+      "id": "ac9d0ade-28e3-4327-97db-272edf00badc",
+      "name": "Code1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "chatId": "-4688456849",
+        "text": "={{ $json.response }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1770,
+        940
+      ],
+      "id": "b0265377-3734-40b3-a396-22ffb34e4696",
+      "name": "Telegram3",
+      "webhookId": "91b685f0-50f3-4085-bf6d-f521f0ffb036",
+      "credentials": {
+        "telegramApi": {
+          "id": "G1c9U2HF7fRTzVjL",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.response }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a data analyst.\nYou MUST provide your final answer as a JSON object with the following structure:\n\n    {\n      \"code\": ,\n      \"type\": \"A string value that MUST be either 'buy' or 'sell'.\",\n      \"current_price\": \"The current stock price (a decimal)\",\n      \"target_price\": \"The target stock price (a decimal)\",\n      \"profit_margin\": \"The profit margin (a decimal)\",\n      \"strategy_used\": {{ $('Get Strategy').item.json.name }},\n      \"R_coefficient\": \"The R coefficient (a decimal)\"\n\n\n1.當投資建議為下跌趨勢：檢查風險報酬比(R coefficient)是否大於等於1.0 && 預期報酬率大於等於5%。\n如果以上條件都成立，code 由使用者輸入，type值為 'sell'\n\n2.當投資建議為上漲趨勢，或者是下跌趨勢停止/舒緩，開始出現趨勢反轉時。\n檢查風險報酬比(R倍數)是否大於等於1.0 && 預期報酬率大於等於5%。\n如果以上條件都成立，code 由使用者輸入，type值為 'suy'\n\n- 當投資建議為沒有明確趨勢，建議觀望時，type值為 'Null'\n\n- 當 Target Price 同時有短期與中期時，選擇用中期或者同時有第一目標價與第二目標價時，使用第一目標價。\nProfit Margin = ABS((Target Price - Current Price)/Current Price)\n\n#其他規則\n- 如果缺乏 Target Price、風險報酬比(R倍數)、Profit Margin 數據時，都設為0即可，不要自行的隨意計算\n\n- R_coefficient = ABS((target_price - current_price) / (stop_loss_price - current_price))\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1580,
+        1400
+      ],
+      "id": "10005c62-2a6f-4f76-b378-edd4a282f3a6",
+      "name": "Trading Decision"
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2820,
+        1100
+      ],
+      "id": "49e2b614-5244-4e95-a275-87d8fecab54b",
+      "name": "Wait",
+      "webhookId": "ddab79ff-ef12-4b1b-997e-6965fa9c1431"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "isAuth": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Daily&Weekly",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Consolidate Daily&Weekly": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Daily Chart": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Weekly Chart": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get Strategy": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Parse JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Daily Chart",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Analyze Weekly Chart",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Consolidate Daily&Weekly",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S31": {
+      "main": [
+        [
+          {
+            "node": "Analyze Daily Chart",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S32": {
+      "main": [
+        [
+          {
+            "node": "Analyze Weekly Chart",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response": {
+      "main": [
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Trading Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Get Strategy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Trading Decision",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Trading Decision",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB1": {
+      "main": [
+        [
+          {
+            "node": "place order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "NocoDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse JSON": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily Chart": {
+      "main": [
+        [
+          {
+            "node": "S31",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Weekly Chart": {
+      "main": [
+        [
+          {
+            "node": "S32",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "isAuth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Daily Chart",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Weekly Chart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trading Decision": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "place order": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "d3e4b2ac-d318-4c34-a328-490d7a0be7c1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d35eaa7fc500129016ecea5c0b0b2272284baf4ee33e839c3a2d29c2154e4cf1"
+  },
+  "id": "mcRegBgT1eSBA0gC",
+  "tags": []
+}

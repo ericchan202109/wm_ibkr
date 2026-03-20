@@ -1,0 +1,30 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/render_stock_report.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    controls:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    fetched:
+      type: ''
+      description: ''
+      default: null
+    history:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+    symbol:
+      type: string
+      description: ''
+      default: null
+      originalType: string
+  required:
+    - symbol
+    - fetched

@@ -1,0 +1,63 @@
+summary: Execute an IBKR order candidate via yatws
+description: Accepts a normalized order candidate, validates it in Rust, and
+  optionally submits it to the IBKR gateway socket through yatws.
+value:
+  modules:
+    - id: place_order
+      value:
+        path: u/admin2/place_ibkr_signal_order
+        type: script
+        is_trigger: false
+        input_transforms:
+          host:
+            expr: flow_input.order_candidate.host
+            type: javascript
+          port:
+            expr: flow_input.order_candidate.port
+            type: javascript
+          side:
+            expr: flow_input.order_candidate.side
+            type: javascript
+          symbol:
+            expr: flow_input.order_candidate.symbol
+            type: javascript
+          dry_run:
+            expr: flow_input.order_candidate.dry_run
+            type: javascript
+          currency:
+            expr: flow_input.order_candidate.currency
+            type: javascript
+          exchange:
+            expr: flow_input.order_candidate.exchange
+            type: javascript
+          quantity:
+            expr: flow_input.order_candidate.quantity
+            type: javascript
+          client_id:
+            expr: flow_input.order_candidate.client_id
+            type: javascript
+          order_type:
+            expr: flow_input.order_candidate.order_type
+            type: javascript
+          limit_price:
+            expr: flow_input.order_candidate.limit_price
+            type: javascript
+          outside_rth:
+            expr: flow_input.order_candidate.outside_rth
+            type: javascript
+          time_in_force:
+            expr: flow_input.order_candidate.time_in_force
+            type: javascript
+          primary_exchange:
+            expr: flow_input.order_candidate.primary_exchange
+            type: javascript
+      summary: Validate or submit the IBKR order through yatws
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    order_candidate:
+      type: object
+      description: Normalized order request produced by the strategy engine
+  required:
+    - order_candidate

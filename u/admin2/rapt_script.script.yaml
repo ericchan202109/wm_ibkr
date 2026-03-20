@@ -7,8 +7,10 @@ schema:
   type: object
   properties:
     port:
-      type: integer
-      description: 'IB Gateway Port (e.g. 4001 for Live, 4002 for Paper)'
-      default: 4002
+      type: object
+      description: IB Gateway Port (e.g. 4001 for Live, 4002 for Paper)
+      default: null
+      format: resource-option
       originalType: number
-  required: []
+  required:
+    - port

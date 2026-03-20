@@ -1,0 +1,19 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/get_signal_run_detail.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      description: ''
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    signal_run_id:
+      type: integer
+      description: ''
+      default: null
+  required:
+    - signal_run_id

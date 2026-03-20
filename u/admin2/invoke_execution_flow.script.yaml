@@ -1,0 +1,19 @@
+summary: ''
+description: ''
+lock: '!inline u/admin2/invoke_execution_flow.script.lock'
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    execution_flow_path:
+      type: string
+      description: ''
+      default: u/admin2/execute_ibkr_order
+      originalType: string
+    order_candidate:
+      type: object
+      description: ''
+      default: null
+      properties: {}
+  required: []
