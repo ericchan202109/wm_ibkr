@@ -1,0 +1,15 @@
+type: flow
+path: u/admin2/trump_code_realtime
+fields:
+  db_resource_path:
+    type: static
+    value: u/admin2/supabase_postgresql
+  include_data_files:
+    type: static
+    value: true
+  max_posts:
+    type: static
+    value: 250
+  max_markets:
+    type: static
+    value: 150

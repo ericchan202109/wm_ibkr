@@ -1,0 +1,48 @@
+summary: Daily trump-code sync
+description: Refreshes the daily trump-code dashboard snapshots and curated data files into Postgres for the Windmill app.
+value:
+  modules:
+    - id: run_daily_sync
+      summary: Run the daily upstream sync
+      value:
+        type: rawscript
+        language: python3
+        path: u/admin2/trump_code_sync
+        content: "!inline ../trump_code_sync.py"
+        is_trigger: false
+        input_transforms:
+          sync_mode:
+            type: static
+            value: daily
+          db_resource_path:
+            type: javascript
+            expr: flow_input.db_resource_path
+          include_data_files:
+            type: javascript
+            expr: flow_input.include_data_files
+          max_posts:
+            type: javascript
+            expr: flow_input.max_posts
+          max_markets:
+            type: javascript
+            expr: flow_input.max_markets
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      default: u/admin2/supabase_postgresql
+      description: PostgreSQL resource path
+    include_data_files:
+      type: boolean
+      default: true
+      description: Whether to fetch curated /api/data files during the daily sync
+    max_posts:
+      type: integer
+      default: 1000
+      description: Maximum number of posts to upsert during the daily sync
+    max_markets:
+      type: integer
+      default: 250
+      description: Maximum number of Polymarket rows to persist during the daily sync

@@ -1,0 +1,25 @@
+summary: Read bundled trump-code dashboard data from Postgres
+description: Returns the latest synced trump-code summaries, models, posts, markets, curated data objects, and recent sync run history for a Windmill app or script consumer.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    db_resource_path:
+      type: string
+      description: PostgreSQL resource path
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    recent_post_limit:
+      type: integer
+      description: Maximum number of recent posts to return
+      default: 20
+    market_limit:
+      type: integer
+      description: Maximum number of markets to return
+      default: 25
+    prediction_limit:
+      type: integer
+      description: Maximum number of prediction log entries to include in the preview
+      default: 50
+  required: []

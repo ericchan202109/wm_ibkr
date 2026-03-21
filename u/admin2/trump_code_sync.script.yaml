@@ -1,0 +1,33 @@
+summary: Sync upstream trump-code API snapshots into Postgres
+description: Fetches the public trump-code dashboard and curated data files, then persists the latest snapshots, posts, markets, and summaries into the trump_code schema.
+kind: script
+schema:
+  $schema: https://json-schema.org/draft/2020-12/schema
+  type: object
+  properties:
+    sync_mode:
+      type: string
+      description: Sync scope to run
+      default: daily
+      enum:
+        - daily
+        - realtime
+      originalType: string
+    db_resource_path:
+      type: string
+      description: PostgreSQL resource path
+      default: u/admin2/supabase_postgresql
+      originalType: string
+    include_data_files:
+      type: boolean
+      description: Whether to fetch the curated /api/data payloads for the selected sync mode
+      default: true
+    max_posts:
+      type: integer
+      description: Maximum number of posts to upsert per source payload
+      default: 500
+    max_markets:
+      type: integer
+      description: Maximum number of markets to upsert from the Polymarket endpoint
+      default: 250
+  required: []

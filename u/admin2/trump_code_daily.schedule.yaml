@@ -1,0 +1,13 @@
+schedule: "0 35 16 * * 1-5"
+timezone: "America/New_York"
+enabled: true
+script_path: "u/admin2/trump_code_daily"
+is_flow: true
+args:
+  db_resource_path: "u/admin2/supabase_postgresql"
+  include_data_files: true
+  max_posts: 1000
+  max_markets: 250
+summary: "Run the daily trump-code sync flow"
+description: "Refreshes the daily trump-code snapshots, curated data files, and dashboard-ready tables after the US market close on weekdays."
+no_flow_overlap: true

@@ -1,0 +1,13 @@
+schedule: "0 */5 * * * *"
+timezone: "America/New_York"
+enabled: true
+script_path: "u/admin2/trump_code_realtime"
+is_flow: true
+args:
+  db_resource_path: "u/admin2/supabase_postgresql"
+  include_data_files: true
+  max_posts: 250
+  max_markets: 150
+summary: "Run the realtime trump-code sync flow"
+description: "Refreshes the realtime trump-code snapshots and recent post feed every 5 minutes without overlapping runs."
+no_flow_overlap: true
